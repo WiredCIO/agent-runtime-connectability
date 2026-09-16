@@ -31,7 +31,7 @@ RUN set -eux; \
 # home so it survives whatever uid the sandbox assigns.
 RUN set -eux; \
     dotnet tool install Microsoft.PowerApps.CLI.Tool --tool-path /opt/dotnet/tools; \
-    pac --version
+    pac help > /dev/null
 
 # Dataverse MCP local proxy, pre-pulled so runs don't pay an npx fetch each time.
 # Unused on the remote-endpoint MCP path, but harmless and useful for `pac` auth debugging.
@@ -41,5 +41,5 @@ USER node
 
 RUN set -eux; \
     claude --version; \
-    pac --version; \
+    pac help > /dev/null; \
     node --version
