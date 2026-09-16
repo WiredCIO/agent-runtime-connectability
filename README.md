@@ -26,3 +26,12 @@ ghcr.io/wiredcio/agent-runtime-connectability:latest
 ```
 
 Built and published by GitHub Actions on every push to `Dockerfile`.
+
+## Note on networking
+
+This image carried Tailscale briefly, to let sandboxes reach Paperclip's MCP
+gateway at its tailnet hostname. That never worked: Daytona boots sandboxes with
+its own init and ignores an image's `ENTRYPOINT`, and Paperclip injects env vars at
+exec time rather than container start, so there was no point at which a join could
+run with a key. Paperclip is now reachable at a public hostname instead, so the
+sandbox needs no tailnet membership.
