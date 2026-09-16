@@ -39,7 +39,18 @@ RUN npm install -g @microsoft/dataverse || echo "WARN: @microsoft/dataverse not 
 
 # Tailscale, so the sandbox can resolve the Paperclip MCP gateway, which is
 # published at a tailnet hostname and is otherwise unreachable from Daytona.
-RUN set -eux;     apt-get update;     apt-get install -y --no-install-recommends gnupg;     curl -fsSL https://pkgs.tailscale.com/stable/debian/trixie.noarmor.gpg       -o /usr/share/keyrings/tailscale-archive-keyring.gpg;     curl -fsSL https://pkgs.tailscale.com/stable/debian/trixie.tailscale-keyring.list       -o /etc/apt/sources.list.d/tailscale.list;     apt-get update;     apt-get install -y --no-install-recommends tailscale;     rm -rf /var/lib/apt/lists/*;     tailscaled --version
+RUN set -eux; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends gnupg; \
+    . /etc/os-release; \
+    curl -fsSL "https://pkgs.tailscale.com/stable/debian/${VERSION_CODENAME}.noarmor.gpg" \
+      -o /usr/share/keyrings/tailscale-archive-keyring.gpg; \
+    curl -fsSL "https://pkgs.tailscale.com/stable/debian/${VERSION_CODENAME}.tailscale-keyring.list" \
+      -o /etc/apt/sources.list.d/tailscale.list; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends tailscale; \
+    rm -rf /var/lib/apt/lists/*; \
+    tailscaled --version
 
 COPY ts-entrypoint.sh /usr/local/bin/ts-entrypoint.sh
 RUN chmod 0755 /usr/local/bin/ts-entrypoint.sh
