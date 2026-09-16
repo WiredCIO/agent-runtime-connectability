@@ -67,3 +67,7 @@ RUN set -eux; \
 # Wraps the base entrypoint: joins the tailnet (when TS_AUTHKEY is set), then
 # execs `tini -- <CMD>` exactly as the base image did.
 ENTRYPOINT ["/usr/local/bin/ts-entrypoint.sh"]
+
+# Setting ENTRYPOINT resets CMD to null, which would leave tini with nothing to
+# exec. Restore the base image's command explicitly.
+CMD ["/usr/local/bin/paperclip-agent-shim"]
