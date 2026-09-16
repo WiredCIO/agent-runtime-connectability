@@ -37,7 +37,9 @@ RUN set -eux; \
 # Unused on the remote-endpoint MCP path, but harmless and useful for `pac` auth debugging.
 RUN npm install -g @microsoft/dataverse || echo "WARN: @microsoft/dataverse not installed; remote MCP path unaffected"
 
-USER node
+# Base image runs as the numeric uid 1000:1000 with no passwd entry, so `USER node`
+# fails with "no matching entries in passwd file". Restore the numeric id exactly.
+USER 1000:1000
 
 RUN set -eux; \
     claude --version; \
