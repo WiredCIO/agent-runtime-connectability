@@ -43,9 +43,9 @@ RUN set -eux; \
     apt-get update; \
     apt-get install -y --no-install-recommends gnupg; \
     . /etc/os-release; \
-    curl -fsSL "https://pkgs.tailscale.com/stable/debian/${VERSION_CODENAME}.noarmor.gpg" \
+    curl -fsSL "https://pkgs.tailscale.com/stable/${ID}/${VERSION_CODENAME}.noarmor.gpg" \
       -o /usr/share/keyrings/tailscale-archive-keyring.gpg; \
-    curl -fsSL "https://pkgs.tailscale.com/stable/debian/${VERSION_CODENAME}.tailscale-keyring.list" \
+    curl -fsSL "https://pkgs.tailscale.com/stable/${ID}/${VERSION_CODENAME}.tailscale-keyring.list" \
       -o /etc/apt/sources.list.d/tailscale.list; \
     apt-get update; \
     apt-get install -y --no-install-recommends tailscale; \
